@@ -1,6 +1,6 @@
 About
 =====
-Based on: dowser
+Based on: [dowser](http://www.aminus.net/wiki/Dowser)
 
 Ported as an easy to install django app to debug your memory leaks.
 
