@@ -1,0 +1,15 @@
+{% extends "django_dowser/base.html" %}
+
+{% block title %}Dowser: Tree{% endblock title %}
+
+{% block body %}
+<div id="header">
+    <h1><a href="{{home}}">Dowser</a>: Tree</h1>
+</div>
+
+<h2>{{typename}} {{objid}}</h2>
+
+<div id="output">
+{{output|safe}}
+</div>
+{% endblock body %}
