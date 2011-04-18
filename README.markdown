@@ -1,11 +1,13 @@
 About
 =====
 Based on: [dowser](http://www.aminus.net/wiki/Dowser)
+Original dowser was wsgi enabled. Unfortunatelly not all django hosting solutions provide wsgi. 
+In daily development the most common usage pattern is ./manage.py runserver which defenetly is not wsgi.
+That's the story why this fork was created.
 
-Ported as an easy to install django app to debug your memory leaks.
+The target of this project is to maintain easy to use and install django app to debug your memory leaks.
 
-Following extensions has been made:
-
+Following enhancements have been implemented on top of original dowser:
 - long term analysis, 1m, 1h, 1d, 4w buffers
 - optimization by moving from lists to python deque
 - server load optimization by moving charts to google chart
@@ -18,10 +20,8 @@ Following extensions has been made:
 
 Installation
 ============
-
-Check it out and add to PYTHONPATH.
-Than modify project configuration.
-
+Download/pull ir and add to PYTHONPATH.
+Than modify project configuration to add the app.
 
 settings.py
 -----------
@@ -37,13 +37,20 @@ urls.py
 	    (r'^dowser/', include('django_dowser.urls')),
 	)
 
+
+example buildout recipe
+-----------------------
+	[django-dowser]
+	location = django-dowser
+	recipe = zerokspot.recipe.git
+	repository = https://github.com/munhitsu/django-dowser
+
 Note
 ----
 Use django-dowser only on multithreaded servers. In case forking occurs than
 each fork will have it's own dowser storage.
 
-
 Usage
 -----
-start the app and open link:
+Start the project and open link:
 http://domain:port/dowser/
