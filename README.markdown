@@ -1,3 +1,21 @@
+About
+=====
+Based on: dowser
+
+Ported as an easy to install django app to debug your memory leaks.
+
+Following extensions has been made:
+
+- long term analysis, 1m, 1h, 1d, 4w buffers
+- optimization by moving from lists to python deque
+- server load optimization by moving charts to google chart
+- django specific - only authenticated superuser can view analysis
+
+
+![Screen shot](https://github.com/munhitsu/django-dowser/raw/master/wiki/screen0.png)
+
+
+
 Installation
 ============
 
