@@ -1,14 +1,7 @@
-#import cgi
 import gc
-import os
-import sys
 import threading
 import time
-from StringIO import StringIO
-from types import FrameType, ModuleType
 from django.utils.html import escape
-
-#from django.conf import settings
 
 from collections import deque
 import itertools
@@ -83,9 +76,7 @@ class Dowser(object):
             for i in range(len(self.samples)):
                 if len(history[i]) > DOWSER_MAXENTRIES[i]:
                     history[i].pop()
-        
-#        print self.history
-    
+
     def stop(self):
         self.running = False
 

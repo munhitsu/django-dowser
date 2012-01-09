@@ -20,3 +20,5 @@ download-cache/
 /static/*
 /media/*
 .DS_Store
+
+.idea/

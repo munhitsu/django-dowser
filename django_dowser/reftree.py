@@ -1,8 +1,9 @@
 import gc
 import sys
-
+import logging
 from types import FrameType
 
+log = logging.getLogger(__name__)
 
 class Tree(object):
     
@@ -24,7 +25,7 @@ class Tree(object):
     
     def walk(self, maxresults=100, maxdepth=None):
         """Walk the object tree, ignoring duplicates and circular refs."""
-        print "step"
+        log.debug("step")
         self.seen = {}
         self.ignore(self, self.__dict__, self.obj, self.seen, self._ignore)
         
@@ -33,9 +34,9 @@ class Tree(object):
         
         self.maxdepth = maxdepth
         count = 0
-        print "will iterate results"
+        log.debug("will iterate results")
         for result in self._gen(self.obj):
-            print "will yeld"
+            log.debug("will yeld")
             yield result
             count += 1
             if maxresults and count >= maxresults:

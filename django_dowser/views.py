@@ -1,11 +1,8 @@
-from django.template import RequestContext, loader
+from django.template import RequestContext
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.conf import settings
 from django.utils.html import escape
 from types import ModuleType, FrameType
 from django.contrib.auth.decorators import user_passes_test
-import Image, ImageDraw
 import gc
 import sys
 import threading
@@ -51,21 +48,6 @@ def chart_url(typename,history_slot=0):
     url = chart_url2(data)
     return url
 
-@user_passes_test(lambda u: u.is_superuser)
-def chart(request,typename):
-    """Return a sparkline chart of the given type."""
-    data = dowser.history[typename]
-    height = 20.0
-    scale = height / max(data)
-    im = Image.new("RGB", (len(data), int(height)), 'white')
-    draw = ImageDraw.Draw(im)
-    draw.line([(i, int(height - (v * scale))) for i, v in enumerate(data)],
-              fill="#009900")
-    del draw
-   
-    response = HttpResponse(mimetype='image/png')
-    im.save(response, "PNG")
-    return response
 
 @user_passes_test(lambda u: u.is_superuser)
 def trace(request,objid,typename):
