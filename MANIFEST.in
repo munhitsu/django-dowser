@@ -1,0 +1,1 @@
+recursive-include django_dowser/templates *.html *.css
