@@ -21,6 +21,5 @@ setuptools.setup(
 			"Topic :: Utilities",
 			"Topic :: Software Development :: Libraries",
 		],
-    },
 	packages=['django_dowser'],
 )
