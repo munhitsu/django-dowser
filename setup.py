@@ -1,6 +1,10 @@
-import setuptools, sys
+import os
+from setuptools import setup, find_packages
 
-setuptools.setup(
+ROOT_DIR = os.path.dirname(__file__)
+SOURCE_DIR = os.path.join(ROOT_DIR)
+
+setup(
 	name="django-dowser",
 	version='0.1',
 
@@ -21,5 +25,7 @@ setuptools.setup(
 			"Topic :: Utilities",
 			"Topic :: Software Development :: Libraries",
 		],
-	packages=['django_dowser'],
+        packages = find_packages(),
+        include_package_data=True,
+        zip_safe=False, # because we're including media that Django needs
 )
