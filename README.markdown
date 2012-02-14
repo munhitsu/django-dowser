@@ -22,6 +22,9 @@ Following enhancements have been implemented on top of original dowser:
 
 Installation
 ============
+	# latest release
+	pip install django-dowser
+	# or latest master
 	pip install git+git://github.com/munhitsu/django-dowser.git
 
 Than modify project configuration to add the app:
