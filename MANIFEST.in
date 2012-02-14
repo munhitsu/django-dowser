@@ -1,1 +1,3 @@
-recursive-include django_dowser/templates *.html *.css
+include LICENSE
+include LICENSE.dowser
+include README.markdown

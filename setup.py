@@ -4,9 +4,11 @@ from setuptools import setup, find_packages
 ROOT_DIR = os.path.dirname(__file__)
 SOURCE_DIR = os.path.join(ROOT_DIR)
 
+VERSION = '0.1.3'
+
 setup(
 	name="django-dowser",
-	version='0.1.1',
+	version=VERSION,
 
 	author="Mateusz Lapsa-Malawski",
 	author_email="mateusz@munhitsu.com",
@@ -16,7 +18,7 @@ setup(
 	long_description=open("README.markdown").read(),
 	keywords=["django","dowser", "debug", "memory leak"],
 	license = open("LICENSE").read(),
-	download_url="https://nodeload.github.com/munhitsu/django-dowser/tarball/master",
+	download_url="http://pypi.python.org/packages/source/d/django-dowser/django-dowser-%s.tar.gz" % VERSION,
 	platforms="",
 	classifiers=[
 			"Programming Language :: Python",
@@ -29,7 +31,10 @@ setup(
 			"Topic :: Software Development :: Libraries",
 			"License :: OSI Approved :: BSD License",
 		],
-        packages = find_packages(),
-        include_package_data=True,
-        zip_safe=False, # because we're including media that Django needs
+        packages = ['django_dowser'],
+        package_data = {
+                        'django_dowser': ['templates/django_dowser/*.html','templates/django_dowser/*.css'],
+                },
+        include_package_data = True,
+        zip_safe = False, # because we're including media that Django needs
 )
