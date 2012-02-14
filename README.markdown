@@ -22,8 +22,9 @@ Following enhancements have been implemented on top of original dowser:
 
 Installation
 ============
-Download/pull it and add to project PYTHONPATH.
-Than modify project configuration to add the app.
+	pip install git+git://github.com/munhitsu/django-dowser.git
+
+Than modify project configuration to add the app:
 
 settings.py
 -----------
