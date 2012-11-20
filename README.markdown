@@ -2,18 +2,18 @@ About
 =====
 Based on: [Dowser](http://www.aminus.net/wiki/Dowser)
 
-Original dowser was wsgi enabled. Unfortunatelly not all django hosting solutions provide wsgi. 
-In daily development the most common usage pattern is ./manage.py runserver which defenetly is not wsgi.
+The original Dowser is WSGI enabled. Unfortunately, not all Django hosting providers use WSGI.
+In daily development the most common usage pattern is ./manage.py runserver which is not using WSGI.
 That's the story why this fork was created.
 
-In other words the target of this project is to provide easy to use and install django app to debug your memory leaks.
+In the other words the target of this project is to provide easy to use and install Django app to debug your memory leaks.
 
-Following enhancements have been implemented on top of original dowser:
+Following enhancements have been implemented on top of original Dowser:
 
 - long term analysis, 1m, 1h, 1d, 4w buffers
 - optimization by moving from lists to python deque
 - server load optimization by moving charts to google chart
-- only authenticated superuser can view analysis (django specific)
+- only authenticated superuser can view analysis (Django specific)
 
 
 ![Screen shot](https://github.com/munhitsu/django-dowser/raw/master/wiki/screen0.png)
@@ -27,7 +27,7 @@ Installation
 	# or latest master
 	pip install git+git://github.com/munhitsu/django-dowser.git
 
-Than modify project configuration to add the app:
+Next, modify project configuration to add the app:
 
 settings.py
 -----------
@@ -53,11 +53,16 @@ Example buildout recipe
 
 Note
 ----
-Use django-dowser only on multithreaded servers. In case forking occurs than
-each fork will have it's own dowser storage.
+Use django-dowser only on multithreaded servers. With forking, each fork
+will have it's own Dowser storage.
 
 Usage
 -----
 Start the project and open link:
 
 	http://domain:port/dowser/
+
+With development server, this is typically
+
+	http://localhost:8000/dowser/
+
