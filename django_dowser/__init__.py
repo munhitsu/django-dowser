@@ -44,7 +44,7 @@ class Dowser(object):
 
         for obj in gc.get_objects():
             objtype = type(obj)
-            typename = objtype.__module__ + "." + objtype.__name__
+            typename = str(objtype.__module__) + "." + objtype.__name__
             if typename in typecounts:
                 typecounts[typename] += 1
             else:
