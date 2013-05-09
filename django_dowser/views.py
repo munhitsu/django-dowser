@@ -76,7 +76,7 @@ def tree(request,objid,typename):
     for obj in all_objs:
         if id(obj) == objid:
             objtype = type(obj)
-            if objtype.__module__ + "." + objtype.__name__ != typename:
+            if str(objtype.__module__) + "." + objtype.__name__ != typename:
                 rows = ["<h3>The object you requested is no longer "
                         "of the correct type.</h3>"]
             else:
@@ -106,7 +106,7 @@ def trace_all(typename):
     rows = []
     for obj in gc.get_objects():
         objtype = type(obj)
-        if objtype.__module__ + "." + objtype.__name__ == typename:
+        if str(objtype.__module__) + "." + objtype.__name__ == typename:
             rows.append("<p class='obj'>%s</p>"
                         % ReferrerTree(obj).get_repr(obj))
     if not rows:
@@ -120,7 +120,7 @@ def trace_one(typename, objid):
     for obj in all_objs:
         if id(obj) == objid:
             objtype = type(obj)
-            if objtype.__module__ + "." + objtype.__name__ != typename:
+            if str(objtype.__module__) + "." + objtype.__name__ != typename:
                 rows = ["<h3>The object you requested is no longer "
                         "of the correct type.</h3>"]
             else:
@@ -207,7 +207,7 @@ class ReferrerTree(reftree.Tree):
     def get_repr(self, obj, referent=None):
         """Return an HTML tree block describing the given object."""
         objtype = type(obj)
-        typename = objtype.__module__ + "." + objtype.__name__
+        typename = str(objtype.__module__) + "." + objtype.__name__
         prettytype = typename.replace("__builtin__.", "")
         
         name = getattr(obj, "__name__", "")
