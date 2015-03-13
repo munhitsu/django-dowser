@@ -2,6 +2,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils.html import escape
 from types import ModuleType, FrameType
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
 import gc
 import sys
@@ -50,7 +51,7 @@ def chart_url(typename,history_slot=0):
 
 
 @user_passes_test(lambda u: u.is_superuser)
-def trace(request,objid,typename):
+def trace(request,typename,objid=None):
 #    typename = req.path_info_pop()
 #    objid = req.path_info_pop()
     gc.collect()
@@ -217,11 +218,14 @@ class ReferrerTree(reftree.Tree):
         key = ""
         if referent:
             key = self.get_refkey(obj, referent)
+        url = reverse('dowser_trace_object', args=(
+            typename,
+            id(obj)
+        ))
         return ('<a class="objectid" href="%s">%s</a> '
                 '<span class="typename">%s</span>%s<br />'
                 '<span class="repr">%s</span>'
-                % (("/dowser/trace/%s/%s" % (typename, id(obj))),
-                   id(obj), prettytype, key, get_repr(obj, 100))
+                % (url, id(obj), prettytype, key, get_repr(obj, 100))
                 )
     
     def get_refkey(self, obj, referent):
