@@ -125,6 +125,11 @@ def trace_one(typename, objid):
                 rows = ["<h3>The object you requested is no longer "
                         "of the correct type.</h3>"]
             else:
+                tree = ReferrerTree(obj)
+
+                # repr
+                rows.append("<p class='obj'>%s</p>" % get_repr(obj, 5000))
+
                 # Attributes
                 rows.append('<div class="obj"><h3>Attributes</h3>')
                 for k in dir(obj):
@@ -140,7 +145,6 @@ def trace_one(typename, objid):
                 rows.append('<p class="desc"><a href="%s">Show the '
                             'entire tree</a> of reachable objects</p>'
                             % ("../../tree/%s/%s" % (typename, objid)))
-                tree = ReferrerTree(obj)
                 tree.ignore(all_objs)
                 for depth, parentid, parentrepr in tree.walk(maxdepth=1):
                     if parentid:
