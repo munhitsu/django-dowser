@@ -32,9 +32,6 @@ setup(
 			"License :: OSI Approved :: BSD License",
 		],
         packages = ['django_dowser'],
-        package_data = {
-                        'django_dowser': ['templates/django_dowser/*.html','templates/django_dowser/*.css'],
-                },
         include_package_data = True,
         zip_safe = False, # because we're including media that Django needs
 )
