@@ -2,6 +2,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils.html import escape
 from types import ModuleType, FrameType
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
 import gc
 import sys
@@ -50,7 +51,7 @@ def chart_url(typename,history_slot=0):
 
 
 @user_passes_test(lambda u: u.is_superuser)
-def trace(request,objid,typename):
+def trace(request,typename,objid=None):
 #    typename = req.path_info_pop()
 #    objid = req.path_info_pop()
     gc.collect()
@@ -124,6 +125,11 @@ def trace_one(typename, objid):
                 rows = ["<h3>The object you requested is no longer "
                         "of the correct type.</h3>"]
             else:
+                tree = ReferrerTree(obj)
+
+                # repr
+                rows.append("<p class='obj'>%s</p>" % get_repr(obj, 5000))
+
                 # Attributes
                 rows.append('<div class="obj"><h3>Attributes</h3>')
                 for k in dir(obj):
@@ -139,7 +145,6 @@ def trace_one(typename, objid):
                 rows.append('<p class="desc"><a href="%s">Show the '
                             'entire tree</a> of reachable objects</p>'
                             % ("../../tree/%s/%s" % (typename, objid)))
-                tree = ReferrerTree(obj)
                 tree.ignore(all_objs)
                 for depth, parentid, parentrepr in tree.walk(maxdepth=1):
                     if parentid:
@@ -217,11 +222,14 @@ class ReferrerTree(reftree.Tree):
         key = ""
         if referent:
             key = self.get_refkey(obj, referent)
+        url = reverse('dowser_trace_object', args=(
+            typename,
+            id(obj)
+        ))
         return ('<a class="objectid" href="%s">%s</a> '
                 '<span class="typename">%s</span>%s<br />'
                 '<span class="repr">%s</span>'
-                % (("/dowser/trace/%s/%s" % (typename, id(obj))),
-                   id(obj), prettytype, key, get_repr(obj, 100))
+                % (url, id(obj), prettytype, key, get_repr(obj, 100))
                 )
     
     def get_refkey(self, obj, referent):
