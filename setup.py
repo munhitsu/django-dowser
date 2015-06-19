@@ -15,7 +15,7 @@ setup(
 	url="http://github.com/munhitsu/django-dowser",
 
 	description="Django fork of amazing memory leaks tracking application for python wsgi - the Dowser",
-	long_description=open("README.markdown").read(),
+	long_description=open("README.rst").read(),
 	keywords=["django","dowser", "debug", "memory leak"],
 	license = open("LICENSE").read(),
 	download_url="http://pypi.python.org/packages/source/d/django-dowser/django-dowser-%s.tar.gz" % VERSION,
