@@ -3,13 +3,7 @@ About
 
 Based on: `Dowser <http://www.aminus.net/wiki/Dowser>`__
 
-The original Dowser is WSGI enabled. Unfortunately, not all Django
-hosting providers use WSGI. In daily development the most common usage
-pattern is ./manage.py runserver which is not using WSGI. That's the
-story why this fork was created.
-
-In the other words the target of this project is to provide easy to use
-and install Django app to debug your memory leaks.
+A Django specific Dowser port.
 
 Following enhancements have been implemented on top of original Dowser:
 
@@ -51,7 +45,7 @@ urls.py
 
 ::
 
-    urlpatterns += [url(r'^dowser2/', include('django_dowser.urls'))]
+    urlpatterns += [url(r'^dowser/', include('django_dowser.urls'))]
 
 Example buildout recipe
 -----------------------
