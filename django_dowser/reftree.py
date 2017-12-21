@@ -48,7 +48,7 @@ class Tree(object):
         """Walk the object tree, pretty-printing each branch."""
         self.ignore_caller()
         for depth, refid, rep in self.walk(maxresults, maxdepth):
-            print ("%9d" % refid), (" " * depth * 2), rep
+            print(("%9d" % refid), (" " * depth * 2), rep)
 
 
 def _repr_container(obj):
@@ -174,9 +174,9 @@ class CircularReferents(Tree):
         """Walk the object tree, pretty-printing each branch."""
         self.ignore_caller()
         for trail in self.walk(maxresults, maxdepth):
-            print trail
+            print(trail)
         if self.stops:
-            print "%s paths stopped because max depth reached" % self.stops
+            print("%s paths stopped because max depth reached" % self.stops)
 
 
 def count_objects():
@@ -184,6 +184,5 @@ def count_objects():
     for obj in gc.get_objects():
         objtype = type(obj)
         d[objtype] = d.get(objtype, 0) + 1
-    d = [(v, k) for k, v in d.iteritems()]
-    d.sort()
+    d = sorted((v, k) for k, v in d.items())
     return d

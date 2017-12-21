@@ -44,9 +44,9 @@ class Dowser(object):
             else:
                 typecounts[typename] = 1
 
-        for typename, count in typecounts.iteritems():
+        for typename, count in typecounts.items():
             if typename not in self.history:
-                self.history[typename] = map(lambda x: deque([0] * x), DOWSER_MAXENTRIES)
+                self.history[typename] = [deque([0] * x) for x in DOWSER_MAXENTRIES]
             self.history[typename][0].appendleft(count)
 
         self.samples[0] += 1
@@ -59,7 +59,7 @@ class Dowser(object):
                 self.samples[i+1] += 1
                 self.samples[i] = 0
 
-        for typename, hist in self.history.iteritems():
+        for typename, hist in self.history.items():
             history = self.history[typename]
             # let's promote max from (set of entries to lower granularity history)
             for i in range(len(self.samples)-1):

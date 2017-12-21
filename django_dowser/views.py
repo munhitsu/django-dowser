@@ -1,5 +1,5 @@
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.utils.html import escape
 from types import ModuleType, FrameType
 from django.core.urlresolvers import reverse
@@ -16,15 +16,15 @@ from . import reftree
 def index(request):
     floor = int(request.GET.get('floor', default=0))
     rows = []
-    typenames = dowser.history.keys()
-    typenames.sort()
+    typenames = sorted(dowser.history.keys())
     for typename in typenames:
         history = dowser.history[typename]
         maxhist = 0
         for hist in history:
             maxhist = max(maxhist, max(hist))
-        charts = " ".join(map(lambda x: '<img class="chart" src="%s" alt="%s"/>' %
-                                        (chart_url2(history[x]), DOWSER_NAMES[x]), range(len(history))))
+        charts = " ".join(['<img class="chart" src="%s" alt="%s"/>' %
+                           (chart_url2(history[x]), DOWSER_NAMES[x])
+                           for x in range(len(history))])
         if maxhist > floor:
             row = ('<div class="typecount">%s<br />'
                    '%s<br />'
@@ -36,13 +36,14 @@ def index(request):
                       )
                    )
             rows.append(row)
-    return render_to_response("django_dowser/graphs.html", {'output': "\n".join(rows)},
-                              context_instance=RequestContext(request))
+    return render(request, "django_dowser/graphs.html",
+                  {'output': "\n".join(rows)})
 
 
 def chart_url2(entries):
-    url = "http://chart.apis.google.com/chart?chs=%sx20&cht=ls&chco=0077CC&chd=t:%s" % \
-          (len(entries), ",".join(map(lambda x: str(x), reversed(entries))))
+    url = ("http://chart.apis.google.com/chart?chs=%sx20&cht=ls&"
+           "chco=0077CC&chd=t:%s") % (
+               len(entries), ",".join(str(x) for x in reversed(entries)))
     return url
 
 
@@ -61,9 +62,11 @@ def trace(request, typename, objid=None):
     else:
         rows = trace_one(typename, objid)
 
-    return render_to_response("django_dowser/trace.html",
-                              {'output': "\n".join(rows), 'typename': typename, 'objid': objid or ""},
-                              context_instance=RequestContext(request))
+    return render(request, "django_dowser/trace.html", {
+        'output': "\n".join(rows),
+        'typename': typename,
+        'objid': objid or "",
+    })
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -84,7 +87,8 @@ def tree(request, objid, typename):
 
                 my_tree = ReferrerTree(obj)
                 my_tree.ignore(all_objs)
-                for depth, parentid, parentrepr in my_tree.walk(maxresults=1000):
+                for depth, parentid, parentrepr in my_tree.walk(
+                        maxresults=1000):
                     rows.append(parentrepr)
 
                 rows.append('</div>')
@@ -92,16 +96,16 @@ def tree(request, objid, typename):
     if not rows:
         rows = ["<h3>The object you requested was not found.</h3>"]
 
-    return render_to_response("django_dowser/tree.html",
-                              {'output': "\n".join(rows), 'typename': typename, 'objid': objid},
-                              context_instance=RequestContext(request))
+    return render(request, "django_dowser/tree.html", {
+        'output': "\n".join(rows), 'typename': typename, 'objid': objid})
 
 
-method_types = [type(tuple.__le__),                 # 'wrapper_descriptor'
-                type([1].__le__),                   # 'method-wrapper'
-                type(sys.getcheckinterval),         # 'builtin_function_or_method'
-                type(threading.Thread.isAlive),     # 'instancemethod'
-                ]
+method_types = [
+    type(tuple.__le__),                 # 'wrapper_descriptor'
+    type([1].__le__),                   # 'method-wrapper'
+    type(sys.getcheckinterval),         # 'builtin_function_or_method'
+    type(threading.Thread.isAlive),     # 'instancemethod'
+]
 
 
 def trace_all(typename):
@@ -185,7 +189,8 @@ class ReferrerTree(reftree.Tree):
         thisfile = sys._getframe().f_code.co_filename
         for ref in refiter:
             # Exclude all frames that are from this module or reftree.
-            if isinstance(ref, FrameType) and ref.f_code.co_filename in (thisfile, self.filename):
+            if isinstance(ref, FrameType) and ref.f_code.co_filename in (
+                    thisfile, self.filename):
                 continue
 
             # Exclude all functions and classes from this module or reftree.
@@ -233,9 +238,10 @@ class ReferrerTree(reftree.Tree):
                 )
 
     def get_refkey(self, obj, referent):
-        """Return the dict key or attribute name of obj which refers to referent."""
+        """Return the dict key or attribute name of obj which refers to
+        referent."""
         if isinstance(obj, dict):
-            for k, v in obj.iteritems():
+            for k, v in obj.items():
                 if v is referent:
                     return " (via its %r key)" % k
 
