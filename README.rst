@@ -20,6 +20,7 @@ Following enhancements have been implemented on top of the original Dowser:
 Future
 ======
 - move charts to javascript
+- move inline html to templates
 - drop Django 1.x and Python 2.x compatibility
 
 Installation
@@ -67,8 +68,8 @@ Start the project and open link:
 
     http://domain/dowser/
 
-When running in the local development mode. It is usually:
+When running in the local development mode, it is usually:
 
 ::
 
-    http://localhost:8000/dowser/
+    http://127.0.0.1:8000/dowser/
