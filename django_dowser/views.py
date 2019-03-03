@@ -1,12 +1,17 @@
+import gc
+import sys
+import threading
+
 from django.template import RequestContext
 from django.shortcuts import render
 from django.utils.html import escape
 from types import ModuleType, FrameType
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
+
 from django.contrib.auth.decorators import user_passes_test
-import gc
-import sys
-import threading
 
 from . import dowser, DOWSER_NAMES
 from . import reftree
